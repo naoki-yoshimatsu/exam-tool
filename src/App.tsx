@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import { Upload, FileDown, Plus, Trash2, FileText, Settings, Loader2 } from 'lucide-react';
-
+import fontURL from './assets/NotoSansJP-Regular.ttf';
 interface BlankPageRule {
   id: string;
   afterPage: number;
@@ -54,9 +54,13 @@ function App() {
       const pdfDoc = await PDFDocument.load(arrayBuffer);
       pdfDoc.registerFontkit(fontkit);
 
-      // Fetch Noto Sans JP font for Japanese support
-      const fontUrl = 'https://fonts.gstatic.com/s/notosansjp/v52/-KyWwdzh9696zS1bIdJR72960NToL6k.otf';
-      const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
+      // // Fetch Noto Sans JP font for Japanese support
+      // const fontUrl = 'https://fonts.gstatic.com/s/notosansjp/v56/-F62fjtqLzI2JPCgQBnw7HFowwII2lcnk-AFfrgQrvWXpdFg3KXxAMsKMbdN.7.woff2';
+      // const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
+      // const customFont = await pdfDoc.embedFont(fontBytes);
+
+      // フォントをアセットフォルダから読み込む
+      const fontBytes = await fetch(fontURL).then(res => res.arrayBuffer());
       const customFont = await pdfDoc.embedFont(fontBytes);
 
       const firstPage = pdfDoc.getPages()[0];
